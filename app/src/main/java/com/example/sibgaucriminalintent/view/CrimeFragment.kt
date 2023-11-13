@@ -1,6 +1,6 @@
 package com.example.sibgaucriminalintent.view
 
-import android.app.Fragment
+import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,14 +21,15 @@ class CrimeFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        crime = Crime()
+        crime = Crime( )
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater?,
+        inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         val view = inflater?.inflate(
             R.layout.fragment_crime,
             container, false
@@ -46,29 +47,28 @@ class CrimeFragment : Fragment() {
         return view
     }
 
-    override fun onStart() {
+    override fun onStart()
+    {
         super.onStart()
-            val titleWatcher = object : TextWatcher {
-                override fun beforeTextChanged(
-                    sequence: CharSequence?,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {
-                }
+        val titleWatcher = object : TextWatcher {
+            override fun beforeTextChanged(
+                sequence: CharSequence?,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {}
 
-                override fun onTextChanged(
-                    sequence: CharSequence?,
-                    start: Int,
-                    before: Int,
-                    count: Int
-                ) {
-                    crime.title = sequence.toString()
-                }
-
-                override fun afterTextChanged(sequence: Editable?) {
-                }
+            override fun onTextChanged(
+                sequence: CharSequence?,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
+                crime.title = sequence.toString()
             }
-            titleField.addTextChangedListener(titleWatcher)
+
+            override fun afterTextChanged(sequence: Editable?) {}
         }
+        titleField.addTextChangedListener(titleWatcher)
+    }
 }
