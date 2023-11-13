@@ -67,4 +67,5 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
 }
