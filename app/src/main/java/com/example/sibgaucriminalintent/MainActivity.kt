@@ -3,7 +3,7 @@ package com.example.sibgaucriminalintent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 
-import com.example.sibgaucriminalintent.view.CrimeFragment
+import com.example.sibgaucriminalintent.view.CrimeListFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         if (currentFragment == null)
         {
-            val fragment = CrimeFragment()
+            val fragment = CrimeListFragment.newInstance()
             supportFragmentManager
                 .beginTransaction()
                     .add(R.id.fragment_container, fragment)
