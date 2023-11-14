@@ -1,5 +1,6 @@
 package com.example.sibgaucriminalintent.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sibgaucriminalintent.R
 import com.example.sibgaucriminalintent.model.Crime
 import com.example.sibgaucriminalintent.mvvm.CrimeListViewModel
+import java.util.UUID
 
 private const val TAG = "CrimeListFragment"
 class CrimeListFragment : Fragment() {
@@ -59,6 +61,23 @@ class CrimeListFragment : Fragment() {
         crimeRecyclerView.adapter = adapter
     }
 
+    interface Callbacks
+    {
+        fun onCrimeSelected(crimeId: UUID)
+    }
+
+    private var callbacks: Callbacks? = null
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callbacks = context as Callbacks?
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callbacks = null
+    }
+
     private inner class CrimeHolder(view: View)
         : RecyclerView.ViewHolder(view), View.OnClickListener
     {
@@ -85,8 +104,7 @@ class CrimeListFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
-            Toast.makeText(context, "${crime.title} pressed!", Toast.LENGTH_SHORT)
-                .show()
+            callbacks?.onCrimeSelected(crime.id)
         }
     }
 
