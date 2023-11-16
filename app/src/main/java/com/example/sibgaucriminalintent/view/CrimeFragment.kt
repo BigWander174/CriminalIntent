@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,12 +15,15 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.sibgaucriminalintent.R
 import com.example.sibgaucriminalintent.model.Crime
 import com.example.sibgaucriminalintent.mvvm.CrimeDetailViewModel
+import java.util.Date
 import java.util.UUID
 
 private const val ARG_CRIME_ID = "crime_id"
 private const val TAG = "CrimeFragment"
+private const val DIALOG_DATE = "DialogDate"
+private const val REQUEST_DATE = 0
 
-class CrimeFragment : Fragment() {
+class CrimeFragment : Fragment(), DatePickerFragment.Callbacks {
     private lateinit var crime: Crime
     private lateinit var titleField: EditText
     private lateinit var dateButton: Button
@@ -54,11 +56,6 @@ class CrimeFragment : Fragment() {
 
         titleField = view?.findViewById(R.id.crime_title) as EditText
         dateButton = view?.findViewById(R.id.crime_date) as Button
-        dateButton.apply {
-            text = crime.date.toString()
-            isEnabled = false
-        }
-
         solvedCheckBox = view.findViewById(R.id.crime_solved) as CheckBox
 
         return view
@@ -85,6 +82,14 @@ class CrimeFragment : Fragment() {
             }
 
             override fun afterTextChanged(sequence: Editable?) {}
+        }
+
+        dateButton.setOnClickListener()
+        {
+            DatePickerFragment.newInstance(crime.date).apply {
+                setTargetFragment(this@CrimeFragment, REQUEST_DATE)
+                show(this@CrimeFragment.requireFragmentManager(), DIALOG_DATE)
+            }
         }
         titleField.addTextChangedListener(titleWatcher)
     }
@@ -127,5 +132,10 @@ class CrimeFragment : Fragment() {
             return CrimeFragment().apply {
                 arguments = args
             } }
+    }
+
+    override fun onDateSelected(date: Date) {
+        crime.date = date
+        updateUI()
     }
 }
